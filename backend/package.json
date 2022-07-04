@@ -4,15 +4,19 @@
   "description": "Back-end utilizando NodeJS do projeto ToDo-List da Blitz de carreira.",
   "main": "index.js",
   "scripts": {
+    "start": "node src/index.js",
+    "start:dev": "nodemon src/index.js",
     "test": "npm test"
   },
   "author": "Lucca Neiva Silva",
   "license": "ISC",
   "devDependencies": {
     "eslint": "^8.19.0",
-    "eslint-config-trybe-backend": "^1.0.4"
+    "eslint-config-trybe-backend": "^1.0.4",
+    "nodemon": "^2.0.18"
   },
   "dependencies": {
+    "dotenv": "^16.0.1",
     "express": "^4.18.1"
   }
 }
