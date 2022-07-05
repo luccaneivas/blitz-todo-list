@@ -49,4 +49,13 @@ async function createTask(userId, task, status) {
   return newTask;
 }
 
-module.exports = { getAll, getFilteredAll, createTask };
+async function deleteTask(taskId) {
+  await TaskModel.destroy({ where: { id: taskId } });
+}
+
+async function getTaskById(taskId) {
+  const task = await TaskModel.findByPk(taskId);
+  return task;
+}
+
+module.exports = { getAll, getFilteredAll, createTask, deleteTask, getTaskById };

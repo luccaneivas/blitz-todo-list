@@ -25,10 +25,21 @@ async function createTask(request, response, next) {
 
   try {
     const { id, createdAt } = await TaskService.createTask(userId, task, status);
-    return response.status(StatusCodes.CREATED).json({ id, task, status, userId, createdAt });
+    return response.status(StatusCodes.CREATED).json({ taskId: id, task, status, userId, createdAt });
   } catch (error) {
     next(error);
   }
 };
 
-module.exports = { getTasks, createTask };
+async function deleteTask(request, response, next) {
+  const { taskId } = request.params;
+
+  try {
+    await TaskService.deleteTask(taskId);
+    return response.status(StatusCodes.OK).json({ message: 'Deleted sucessfully!' })
+  } catch (error) {
+    next(error);
+  }
+}
+
+module.exports = { getTasks, createTask, deleteTask };
