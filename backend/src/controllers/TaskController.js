@@ -7,7 +7,6 @@ async function getTasks(request, response, next) {
 
   try {
     if (!orderedBy) {
-      // fazer a requisição para o model das tasks e retornar todas as tasks do usuario
       const tasks = await TaskService.getAll(userId);
       return response.status(StatusCodes.OK).json({ tasks });
     }

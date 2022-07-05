@@ -1,14 +1,7 @@
 const { TaskModel } = require('../database/models');
-const { Op } = require('sequelize');
-
-function order(filter) {
-  if (filter === 'status') return ['status', 'ASC'];
-  if (filter === 'alphabetical') return ['task', 'ASC'];
-  if (filter === 'creation') return ['created_at', 'ASC'];
-}
+const OrderTasks = require('../utils/OrderTasks');
 
 async function getAll(userId) {
-  // acessa a model e recupera todas as tarefas de um determinado usuário
   const tasks = await TaskModel.findAll(
     {
       attributes: {
@@ -24,7 +17,6 @@ async function getAll(userId) {
 }
 
 async function getFilteredAll(userId, orderedBy) {
-  // acessa a model e recupera todas as tarefas de um determinado usuário
   const tasks = await TaskModel.findAll(
     {
       attributes: {
@@ -34,7 +26,7 @@ async function getFilteredAll(userId, orderedBy) {
         user: userId, 
       },
       order: [
-        order(orderedBy)
+        OrderTasks(orderedBy)
       ]
     }
   );
@@ -43,7 +35,6 @@ async function getFilteredAll(userId, orderedBy) {
 }
 
 async function createTask(userId, task, status) {
-  // cria nova tarefa
   const newTask = await TaskModel.create({ task, status, user: userId });
 
   return newTask;
