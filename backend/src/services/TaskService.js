@@ -58,4 +58,8 @@ async function getTaskById(taskId) {
   return task;
 }
 
-module.exports = { getAll, getFilteredAll, createTask, deleteTask, getTaskById };
+async function updateTask(id, task, status) {
+  await TaskModel.update({ task, status }, { where: { id } });
+}
+
+module.exports = { getAll, getFilteredAll, createTask, deleteTask, getTaskById, updateTask };

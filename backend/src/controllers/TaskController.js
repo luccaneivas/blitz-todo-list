@@ -42,4 +42,16 @@ async function deleteTask(request, response, next) {
   }
 }
 
-module.exports = { getTasks, createTask, deleteTask };
+async function updateTask(request, response, next) {
+  const { taskId } = request.params;
+  const { task, status, userId } = request.body;
+
+  try {
+    await TaskService.updateTask(taskId, task, status);
+    return response.status(StatusCodes.OK).json({ id: taskId, task, status, user: userId });
+  } catch (error) {
+    next(error);
+  }
+}
+
+module.exports = { getTasks, createTask, deleteTask, updateTask };
