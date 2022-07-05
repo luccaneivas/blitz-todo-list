@@ -1,5 +1,3 @@
-const TaskModel = require('./TaskModel');
-
 const UserModel = (sequelize, DataTypes) => {
   const UserModel = sequelize.define('UserModel', {
     id: { 
@@ -26,6 +24,8 @@ const UserModel = (sequelize, DataTypes) => {
   return UserModel;
 };
 
-UserModel.hasMany(TaskModel, { foreignKey: 'tasks', as: 'tasks' });
+UserModel.associate = (models) => {
+  UserModel.hasMany(models.TaskModel, { foreignKey: 'tasks', as: 'tasks' });
+}
 
 module.exports = UserModel;

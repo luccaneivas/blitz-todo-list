@@ -1,18 +1,28 @@
 const { StatusCodes } = require('http-status-codes');
 const TaskService = require('../services/TaskService');
 
-async function getList(request, response, next) {
-  const { filter } = request.query;
+async function getTasks(request, response, next) {
+  const { userId } = request.body;
+  const { orderedBy } = request.query;
 
-  if (!filter) {
-    // fazer a requisição para o model das listas e retornar todas as listas
+  if (!orderedBy) {
+    // fazer a requisição para o model das tasks e retornar todas as tasks do usuario
     try {
-      const lists = await TaskService.getAll();
-      return response.status(StatusCodes.OK).json({ lists });
+      const tasks = await TaskService.getAll(userId);
+      
+      return response.status(StatusCodes.OK).json({ tasks });
     } catch (error) {
       next(error);
     }
   }
+  
+  try {
+    const tasks = await TaskService.getFilteredAll(userId, orderedBy);
+    
+    return response.status(StatusCodes.OK).json({ tasks });
+  } catch (error) {
+    next(error);
+  }
 };
 
-module.exports = { getList };
+module.exports = { getTasks };

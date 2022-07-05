@@ -15,7 +15,7 @@ const TaskModel = (sequelize, DataTypes) => {
       allowNull: false,
     },
     createdAt: { 
-      type: DataTypes.DATA,
+      type: DataTypes.DATE,
       allowNull: false,
       field: 'created_at',
     },
@@ -28,5 +28,9 @@ const TaskModel = (sequelize, DataTypes) => {
 
   return TaskModel;
 };
+
+TaskModel.associate = (models) => {
+  TaskModel.belongsTo(models.UserModel, { foreignKey: 'tasks', as: 'tasks' });
+}
 
 module.exports = TaskModel;
