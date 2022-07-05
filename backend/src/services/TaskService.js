@@ -7,9 +7,9 @@ function order(filter) {
   if (filter === 'creation') return ['created_at', 'ASC'];
 }
 
-function getAll(userId) {
+async function getAll(userId) {
   // acessa a model e recupera todas as tarefas de um determinado usuário
-  const tasks = TaskModel.findAll(
+  const tasks = await TaskModel.findAll(
     {
       attributes: {
         exclude: ['updatedAt']
@@ -23,15 +23,15 @@ function getAll(userId) {
   return tasks;
 }
 
-function getFilteredAll(userId, orderedBy) {
+async function getFilteredAll(userId, orderedBy) {
   // acessa a model e recupera todas as tarefas de um determinado usuário
-  const tasks = TaskModel.findAll(
+  const tasks = await TaskModel.findAll(
     {
       attributes: {
         exclude: ['updatedAt']
       },
       where: {
-        user: userId,
+        user: userId, 
       },
       order: [
         order(orderedBy)
@@ -42,4 +42,11 @@ function getFilteredAll(userId, orderedBy) {
   return tasks;
 }
 
-module.exports = { getAll, getFilteredAll };
+async function createTask(userId, task, status) {
+  // cria nova tarefa
+  const newTask = await TaskModel.create({ task, status, user: userId });
+
+  return newTask;
+}
+
+module.exports = { getAll, getFilteredAll, createTask };

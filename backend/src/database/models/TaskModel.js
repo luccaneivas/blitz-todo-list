@@ -14,6 +14,10 @@ const TaskModel = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    user: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
     createdAt: { 
       type: DataTypes.DATE,
       allowNull: false,

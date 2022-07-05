@@ -5,24 +5,30 @@ async function getTasks(request, response, next) {
   const { userId } = request.body;
   const { orderedBy } = request.query;
 
-  if (!orderedBy) {
-    // fazer a requisição para o model das tasks e retornar todas as tasks do usuario
-    try {
-      const tasks = await TaskService.getAll(userId);
-      
-      return response.status(StatusCodes.OK).json({ tasks });
-    } catch (error) {
-      next(error);
-    }
-  }
-  
   try {
-    const tasks = await TaskService.getFilteredAll(userId, orderedBy);
+    if (!orderedBy) {
+      // fazer a requisição para o model das tasks e retornar todas as tasks do usuario
+      const tasks = await TaskService.getAll(userId);
+      return response.status(StatusCodes.OK).json({ tasks });
+    }
     
+    const tasks = await TaskService.getFilteredAll(userId, orderedBy);
     return response.status(StatusCodes.OK).json({ tasks });
+
   } catch (error) {
     next(error);
   }
 };
 
-module.exports = { getTasks };
+async function createTask(request, response, next) {
+  const { userId, task, status } = request.body;
+
+  try {
+    const { id, createdAt } = await TaskService.createTask(userId, task, status);
+    return response.status(StatusCodes.CREATED).json({ id, task, status, userId, createdAt });
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = { getTasks, createTask };
