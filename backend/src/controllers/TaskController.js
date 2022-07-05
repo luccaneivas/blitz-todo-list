@@ -1,5 +1,5 @@
 const { StatusCodes } = require('http-status-codes');
-const ListService = require('../services/ListService');
+const TaskService = require('../services/TaskService');
 
 async function getList(request, response, next) {
   const { filter } = request.query;
@@ -7,7 +7,7 @@ async function getList(request, response, next) {
   if (!filter) {
     // fazer a requisição para o model das listas e retornar todas as listas
     try {
-      const lists = await ListService.getAll();
+      const lists = await TaskService.getAll();
       return response.status(StatusCodes.OK).json({ lists });
     } catch (error) {
       next(error);
